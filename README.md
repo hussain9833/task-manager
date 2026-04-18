@@ -1,6 +1,32 @@
-# Task Management System - MERN Stack
+# Task Manager App
 
-A full-stack task management application built with the MERN stack (MongoDB, Express.js, React.js, Node.js). This application demonstrates authentication, authorization, and role-based permissions for task management.
+A modern task management application with role-based permissions, built with React and Node.js. Perfect for teams and personal task tracking.
+
+## 🌟 Features
+
+- **User Authentication**: Secure login and registration system
+- **Task Management**: Create, edit, delete, and track tasks
+- **Role-Based Permissions**: 
+  - **Creators** can create and manage tasks
+  - **Assignees** can update task status
+  - Smart permission controls for assigned vs personal tasks
+- **Real-time Status Updates**: Quick status toggle (Todo, In Progress, Done)
+- **User Assignment**: Assign tasks to team members
+- **Modern UI**: Clean, responsive design with Tailwind CSS
+- **Auto Keep-Alive**: Prevents server spin-down delays
+
+## 🚀 Quick Start
+
+### Demo Credentials
+Try the app immediately with these demo accounts:
+
+**Creator Account:**
+- Email: `khwajaatzar@gmail.com`
+- Password: `@Skkhwaja98`
+
+**Assignee Account:**
+- Email: `hussain@gmail.com`
+- Password: `@Skkhwaja98`
 
 ## Features
 
@@ -48,197 +74,207 @@ A full-stack task management application built with the MERN stack (MongoDB, Exp
 - **Tailwind CSS** - Styling
 - **Context API** - State management
 
-## Prerequisites
+## 📋 Prerequisites
 
 - Node.js (v14 or higher)
-- MongoDB (local installation or MongoDB Atlas)
+- MongoDB (local or cloud)
 - npm or yarn
 
-## Installation and Setup
+## 🛠️ Installation
 
-### 1. Clone the Repository
-
+### 1. **Clone the repository**
 ```bash
-git clone <repository-url>
-cd task-management-system
+git clone https://github.com/hussain9833/task-manager.git
+cd task-manager
 ```
 
-### 2. Backend Setup
-
+### 2. **Backend Setup**
 ```bash
 cd backend
 npm install
 ```
 
-### 3. Environment Variables for Backend
-
-Create a `.env` file in the `backend` directory:
-
+### 3. **Create Backend Environment File**
+Create `.env` file in backend folder:
 ```env
 MONGODB_URI=mongodb://localhost:27017/task-management
+JWT_SECRET=your-secret-key-here
 PORT=5000
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 ```
 
-### 4. Frontend Setup
-
+### 4. **Start Backend Server**
 ```bash
-cd frontend
+npm start
+```
+
+### 5. **Frontend Setup**
+```bash
+cd ../frontend
 npm install
 ```
 
-### 5. Environment Variables for Frontend (Optional)
-
-Create a `.env` file in the `frontend` directory:
-
+### 6. **Create Frontend Environment File**
+Create `.env` file in frontend folder:
 ```env
 REACT_APP_API_URL=http://localhost:5000/api
 ```
 
-## Running the Application
-
-### 1. Start MongoDB
-
-Make sure MongoDB is running on your system:
-- For local MongoDB: `mongod`
-- For MongoDB Atlas: Ensure your cluster is running
-
-### 2. Start the Backend Server
-
+### 7. **Start Frontend**
 ```bash
-cd backend
-npm run dev
-```
-
-The backend server will start on `http://localhost:5000`
-
-### 3. Start the Frontend Development Server
-
-Open a new terminal and run:
-
-```bash
-cd frontend
 npm start
 ```
 
-The frontend will start on `http://localhost:3000`
+### 8. **Open the App**
+Visit `http://localhost:3000` in your browser
 
-## Sample User Credentials
+## 📖 How to Use
 
-You can create your own accounts during registration, or use these sample credentials after creating them:
+### 1. **Create an Account**
+- Click "Register" on the login page
+- Enter your username, email, and password
+- Or use the demo credentials above
 
-### User 1
-- **Username**: johndoe
-- **Email**: john@example.com
-- **Password**: password123
+### 2. **Create Your First Task**
+- Click "Create New Task" on the dashboard
+- Fill in task details:
+  - **Title**: Brief task name
+  - **Description**: Detailed task information (supports Markdown)
+  - **Type**: Personal (for yourself) or Assigned (for team members)
+  - **Due Date**: When the task should be completed
+  - **Assign To**: Select team member (for assigned tasks)
 
-### User 2
-- **Username**: janedoe
-- **Email**: jane@example.com
-- **Password**: password123
+### 3. **Task Permissions**
 
-## API Endpoints
+#### **Personal Tasks**
+- You (creator) can: Edit everything, update status, delete task
+- Status buttons: ✅ Enabled for you
 
-### Authentication
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user info
+#### **Assigned Tasks**
+- **Creator** (who created the task):
+  - Can: Edit title, description, due date
+  - Can: Delete task
+  - Cannot: Update status (only assignee can)
+  - Status buttons: ❌ Disabled
 
-### Tasks
-- `GET /api/tasks` - Get all tasks for current user
-- `POST /api/tasks` - Create a new task
-- `GET /api/tasks/:id` - Get a specific task
-- `PUT /api/tasks/:id` - Update a task
-- `DELETE /api/tasks/:id` - Delete a task
-- `GET /api/tasks/users/all` - Get all users for task assignment
+- **Assignee** (who received the task):
+  - Can: Update task status only
+  - Cannot: Edit other details
+  - Status buttons: ✅ Enabled
 
-## Project Structure
+### 4. **Update Task Status**
+- **For Assignees**: Click the status buttons (📝 Todo, 🔄 In Progress, ✅ Done)
+- **For Creators**: Only on personal tasks, not assigned tasks
+
+### 5. **Edit or Delete Tasks**
+- Click the "✏️ Edit" or "🗑️ Delete" buttons
+- Only available to task creators
+
+## 🎯 Demo Workflow
+
+1. **Login as Khwaja** (creator)
+2. **Create a task** and assign it to Hussain
+3. **Notice**: Status buttons are disabled (you're the creator)
+4. **Logout and login as Hussain** (assignee)
+5. **See the task** with enabled status buttons
+6. **Update the status** from Todo → In Progress → Done
+7. **Switch back to Khwaja** to see the updated status
+
+## 🏗️ Project Structure
 
 ```
-task-management-system/
+task-manager/
 ├── backend/
-│   ├── models/
-│   │   ├── User.js
-│   │   └── Task.js
-│   ├── routes/
-│   │   ├── auth.js
-│   │   └── tasks.js
-│   ├── middleware/
-│   │   └── auth.js
-│   ├── .env
-│   ├── package.json
-│   └── server.js
+│   ├── models/          # Database models (User, Task)
+│   ├── routes/          # API routes (auth, tasks)
+│   ├── middleware/      # Authentication middleware
+│   ├── .env            # Backend environment variables
+│   └── server.js       # Main server file with keep-alive
 ├── frontend/
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── TaskList.tsx
-│   │   │   └── TaskForm.tsx
-│   │   ├── pages/
-│   │   │   ├── Login.tsx
-│   │   │   ├── Register.tsx
-│   │   │   └── Dashboard.tsx
-│   │   ├── context/
-│   │   │   └── AuthContext.tsx
-│   │   ├── services/
-│   │   │   └── api.ts
-│   │   ├── types/
-│   │   │   └── index.ts
-│   │   ├── App.tsx
-│   │   └── index.tsx
-│   ├── package.json
-│   └── tailwind.config.js
+│   │   ├── components/  # React components
+│   │   ├── pages/       # Page components
+│   │   ├── services/    # API services
+│   │   ├── context/     # React context (Auth)
+│   │   └── types/       # TypeScript types
+│   ├── .env            # Frontend environment variables
+│   └── package.json
 └── README.md
 ```
 
-## Usage Instructions
+## 🔧 Technology Stack
 
-1. **Register/Login**: Create an account or login with existing credentials
-2. **Dashboard**: View all your tasks (personal and assigned)
-3. **Create Task**: Click "Create New Task" to add a new task
-4. **Task Types**:
-   - **Personal**: Only visible to you
-   - **Assigned**: Assign to another user
-5. **Edit/Delete**: 
-   - Task creators can edit all fields and delete tasks
-   - Assignees can only update task status
-6. **Status Updates**: Track task progress through Todo → In Progress → Done
+### Backend
+- **Node.js** with Express.js
+- **MongoDB** with Mongoose
+- **JWT** for authentication
+- **bcrypt** for password hashing
+- **CORS** for cross-origin requests
 
-## Security Considerations
+### Frontend
+- **React** with TypeScript
+- **React Router** for navigation
+- **Axios** for API calls
+- **Tailwind CSS** for styling
+- **Markdown Editor** for task descriptions
 
-- Passwords are hashed using bcryptjs
-- JWT tokens are used for authentication
-- Protected routes ensure only authenticated users can access resources
-- Role-based permissions prevent unauthorized access to tasks
-- Environment variables store sensitive configuration
+## 🌐 Deployment
 
-## Deployment
-
-### Backend Deployment (Heroku Example)
-
-1. Install Heroku CLI
-2. Login to Heroku: `heroku login`
-3. Create app: `heroku create your-app-name`
-4. Set environment variables: `heroku config:set JWT_SECRET=your-secret MONGODB_URI=your-mongo-uri`
-5. Deploy: `git push heroku main`
+### Backend Deployment (Render/Heroku)
+1. Push code to GitHub
+2. Connect your repository to Render/Heroku
+3. Set environment variables:
+   - `MONGODB_URI`
+   - `JWT_SECRET`
+   - `PORT` (usually set automatically)
 
 ### Frontend Deployment (Netlify/Vercel)
+1. Build the frontend: `npm run build`
+2. Deploy the `build` folder
+3. Set environment variable: `REACT_APP_API_URL` (your deployed backend URL)
 
-1. Build the app: `npm run build`
-2. Deploy to Netlify/Vercel
-3. Set environment variable: `REACT_APP_API_URL=your-backend-url`
+## 🔐 Security Features
 
-## Contributing
+- Password hashing with bcrypt
+- JWT token authentication
+- Protected API routes
+- Role-based access control
+- Input validation and sanitization
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **"Cannot connect to backend"**
+   - Ensure backend is running on port 5000
+   - Check `REACT_APP_API_URL` in frontend .env
+
+2. **"Login not working"**
+   - Verify MongoDB connection
+   - Check JWT_SECRET in backend .env
+
+3. **"Status buttons disabled"**
+   - This is correct behavior for creators of assigned tasks
+   - Only assignees can update assigned task status
+
+4. **"Server spin-down delay"**
+   - Keep-alive feature prevents this automatically
+   - Server pings itself every 14 minutes
+
+## 📝 License
+
+This project is for educational purposes. Feel free to use and modify for your learning.
+
+## 👥 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+4. Submit a pull request
 
-## License
+## 📞 Support
 
-This project is licensed under the MIT License.
+If you encounter any issues or have questions, please check the troubleshooting section above or create an issue in the repository.
 
-## Contact
+---
 
-For any questions or issues, please create an issue in the repository.
+**Happy Task Managing! 🎉**
