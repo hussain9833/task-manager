@@ -1,33 +1,15 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
 const http = require('http');
+const express = require('express');
 
-dotenv.config();
-
+// Simple keep-alive server
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Database connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/task-management')
-.then(() => console.log('Connected to MongoDB'))
-.catch((err) => console.error('MongoDB connection error:', err));
-
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/tasks', require('./routes/tasks'));
-
-// Health check endpoint for keep-alive
+// Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'OK', 
     timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    memory: process.memoryUsage()
+    uptime: process.uptime()
   });
 });
 
@@ -35,19 +17,12 @@ app.get('/health', (req, res) => {
 app.get('/', (req, res) => {
   res.status(200).json({ 
     message: 'Task Manager API is running',
-    health: '/health',
-    endpoints: {
-      auth: '/api/auth',
-      tasks: '/api/tasks'
-    }
+    health: '/health'
   });
 });
 
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Health check available at: http://localhost:${PORT}/health`);
-});
+// Create server
+const server = http.createServer(app);
 
 // Keep-alive mechanism - ping every 14 minutes (840000 ms)
 const KEEP_ALIVE_INTERVAL = 14 * 60 * 1000; // 14 minutes
@@ -55,7 +30,7 @@ const KEEP_ALIVE_INTERVAL = 14 * 60 * 1000; // 14 minutes
 function keepAlive() {
   const options = {
     hostname: 'localhost',
-    port: PORT,
+    port: process.env.PORT || 5000,
     path: '/health',
     method: 'GET',
     timeout: 5000
@@ -84,4 +59,6 @@ setInterval(keepAlive, KEEP_ALIVE_INTERVAL);
 setTimeout(keepAlive, 30000);
 
 console.log('Keep-alive service started');
-console.log(`Pinging every ${KEEP_ALIVE_INTERVAL / 60000} minutes to prevent spin-down`);
+console.log(`Pinging every ${KEEP_ALIVE_INTERVAL / 60000} minutes`);
+
+module.exports = app;
